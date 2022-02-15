@@ -3,4 +3,4 @@ parcelRequire=function(e,r,t,n){var i,o="function"==typeof parcelRequire&&parcel
 },{}],"TfQ5":[function(require,module,exports) {
 "use strict";var e=require("./gallery-items.js");console.log(e.galleryItems);
 },{"./gallery-items.js":"q5Rn"}]},{},["TfQ5"], null)
-//# sourceMappingURL=/goit-js-hw-08/01-gallery.feead7ef.js.map
+//# sourceMappingURL=/goit-js-hw-08/01-gallery.6d1e90f7.js.map

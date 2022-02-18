@@ -8,15 +8,12 @@ const refs = {
    textarea: document.querySelector('textarea'),
 };
 
+let formData = {};
+populateFeedbackFrom();
+
 refs.form.addEventListener('submit', onFormSubmit);
 refs.form.addEventListener('input', throttle(onFormInput, 500));
 
-let formData = {
-   email: '',
-   message: '',
-};
-
-populateFeedbackFrom();
 
 //  * - Останавливаем поведение по умолчанию
 //  * - Убираем данные из хранилища
@@ -37,7 +34,12 @@ function onFormSubmit(evet) {
 
 function onFormInput(evet) {
    formData[evet.target.name] = evet.target.value;
-   localStorage.setItem(STORAGE_KEY, JSON.stringify(formData));
+
+   console.log('formData :>>', formData);
+
+   const savedData = JSON.stringify(formData)
+
+   localStorage.setItem(STORAGE_KEY, savedData);
 }
 
 //  * - Получаем значение из хранилища
@@ -46,12 +48,18 @@ function onFormInput(evet) {
 function populateFeedbackFrom() {
 
    const savedMessage = localStorage.getItem(STORAGE_KEY);
+   console.log(savedMessage);
 
    if (savedMessage) {
 
-      formData = JSON.parse(savedMessage);
-      refs.input.value = formData.email;
-      refs.textarea.value = formData.message;
+      const parseSaven = JSON.parse(savedMessage);
+      const keys = Object.keys(parseSaven);
+
+      for (const key of keys) {
+         refs.form.elements[key].value = parseSaven[key];
+         formData[key] = parseSaven[key];
+      }
+
    }
 };
 

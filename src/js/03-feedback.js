@@ -22,9 +22,11 @@ refs.form.addEventListener('input', throttle(onFormInput, 500));
 function onFormSubmit(evet) {
    evet.preventDefault();
    evet.currentTarget.reset();
-
+   
+   formData = {};
+   
    console.log(formData);
-
+   
    localStorage.removeItem(STORAGE_KEY);
 }
 

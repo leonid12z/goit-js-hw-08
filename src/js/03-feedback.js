@@ -9,23 +9,27 @@ const refs = {
 };
 
 let formData = {};
+
 populateFeedbackFrom();
 
 refs.form.addEventListener('submit', onFormSubmit);
-refs.form.addEventListener('input', throttle(onFormInput, 500));
 
+// добавляем throttle
+
+refs.form.addEventListener('input', throttle(onFormInput, 500));
 
 //  * - Останавливаем поведение по умолчанию
 //  * - Убираем данные из хранилища
 //  * - Очищаем форму
 
-function onFormSubmit(evet) {
-   evet.preventDefault();
-   evet.currentTarget.reset();
-   
-   formData = {};
-   
+function onFormSubmit(evt) {
+   evt.preventDefault();
+
    console.log(formData);
+
+   formData = {};
+
+   evt.currentTarget.reset();
    
    localStorage.removeItem(STORAGE_KEY);
 }
@@ -34,14 +38,15 @@ function onFormSubmit(evet) {
 //  * - Сохраняем его в хранилище
 //  * - Можно добавить throttle
 
-function onFormInput(evet) {
-   formData[evet.target.name] = evet.target.value;
+function onFormInput(evt) {
 
-   console.log('formData :>>', formData);
+   formData[evt.target.name] = evt.target.value;
 
-   const savedData = JSON.stringify(formData)
+   console.log('formData :>>>', formData);
 
-   localStorage.setItem(STORAGE_KEY, savedData);
+   const saveData = JSON.stringify(formData)
+
+   localStorage.setItem(STORAGE_KEY, saveData);
 }
 
 //  * - Получаем значение из хранилища
@@ -49,19 +54,19 @@ function onFormInput(evet) {
 
 function populateFeedbackFrom() {
 
-   const savedMessage = localStorage.getItem(STORAGE_KEY);
-   console.log(savedMessage);
+   const saveMessage = localStorage.getItem(STORAGE_KEY);
 
-   if (savedMessage) {
+   console.log(saveMessage);
 
-      const parseSaven = JSON.parse(savedMessage);
-      const keys = Object.keys(parseSaven);
+   if (saveMessage) {
+
+      const parseSave = JSON.parse(saveMessage);
+      const keys = Object.keys(parseSave);
 
       for (const key of keys) {
-         refs.form.elements[key].value = parseSaven[key];
-         formData[key] = parseSaven[key];
+         refs.form.elements[key].value = parseSave[key];
+         formData[key] = parseSave[key];
       }
-
    }
 };
 
